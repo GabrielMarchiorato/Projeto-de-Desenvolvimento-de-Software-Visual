@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using proj_semestre_backend.Models;
+using proj_semestre_backend.Services;
+using Microsoft.AspNetCore.Authorization;
+
+namespace proj_semestre_backend.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class AuthController : ControllerBase, IAuthController
+    {
+        private readonly ILogger<AuthController> _logger;
+        private IAuthService _authService;
+        public AuthController(ILogger<AuthController> logger, IAuthService authService)
+        {
+            _logger = logger;
+            _authService = authService;
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public dynamic Login([FromBody] AuthCredentialsDTO credentials) {
+            try {
+                return Ok(_authService.Login(credentials));
+            } catch (UnauthorizedAccessException e) {
+                return Unauthorized(e.Message);
+            } catch (Exception) {
+                return NoContent();
+            }
+        }
+        
+        [HttpPost]
+        [Route("sign-up")]        
+        public async Task<dynamic> SignUp([FromBody] User userData) {
+            try {
+                return Ok(await _authService.SignUp(userData));
+            } catch (Exception) {
+                return NoContent();
+            }
+        }
+
+        [HttpGet]
+        [Route("authenticated")]
+        [Authorize]
+        public string Authenticated() => String.Format("Autenticado - {0}", User.Identity.Name);
+
+
+    }
+}
