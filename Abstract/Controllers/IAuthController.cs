@@ -10,6 +10,6 @@ namespace proj_semestre_backend.Controllers {
     interface IAuthController {
         dynamic Login(AuthCredentialsDTO model);
 
-        Task<dynamic> SignUp(User model);
+        Task<dynamic> SignUp(SignUpCredentialsDTO model);
     }
 }

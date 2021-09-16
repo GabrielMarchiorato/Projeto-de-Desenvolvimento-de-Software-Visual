@@ -32,15 +32,20 @@ namespace proj_semestre_backend.Services {
 
             return new AuthenticatedUser { user = user, token = _tokenService.GenerateToken(user)};
         }
-        public async ValueTask<User> SignUp(User user) {
+        public async ValueTask<User> SignUp(SignUpCredentialsDTO credentials) {
             byte[] salt = new byte[128 / 8];
 
             using (var rngCsp = new RNGCryptoServiceProvider()) { rngCsp.GetNonZeroBytes(salt); }
 
-            user.Salt = Convert.ToBase64String(salt);
-            user.Password = this.Hash(user.Password, salt);
+            var hashedSalt = Convert.ToBase64String(salt);
+            var password = this.Hash(credentials.password, salt);
 
-            var createdUser = await _userRepository.AddUser(user);
+            var createdUser = await _userRepository.AddUser(new User{
+                Password = password,
+                Salt = hashedSalt,
+                Username = credentials.username,
+                Role = credentials.role
+            });
             return createdUser;
         }
 

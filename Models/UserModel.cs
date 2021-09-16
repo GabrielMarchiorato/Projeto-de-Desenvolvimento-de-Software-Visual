@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using System.Collections.Generic;
 namespace proj_semestre_backend.Models
 {
     [Table("Users")]
@@ -12,5 +12,7 @@ namespace proj_semestre_backend.Models
         public string Salt { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
+        public List<Card> Cards { get; set; }
+        public List<Movement> Movements { get; set; }
     }
 }

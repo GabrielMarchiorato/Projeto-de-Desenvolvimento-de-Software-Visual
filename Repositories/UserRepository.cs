@@ -12,7 +12,8 @@ namespace proj_semestre_backend.Repositories
         public UserRepository(ApiContext context){
             _context = context;
         }
-        public User Get(AuthCredentialsDTO userCredentials) => _context.Users.Where(user => user.Username == userCredentials.username).FirstOrDefault();
+        public User Get(AuthCredentialsDTO userCredentials) => 
+            _context.Users.Where(user => user.Username == userCredentials.username).FirstOrDefault();
         
         public async ValueTask<User> AddUser(User user) {
             await _context.Users.AddAsync(user);

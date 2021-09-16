@@ -29,14 +29,15 @@ namespace proj_semestre_backend.Controllers
                 return Ok(_authService.Login(credentials));
             } catch (UnauthorizedAccessException e) {
                 return Unauthorized(e.Message);
-            } catch (Exception) {
+            } catch (Exception e) {
+                Console.WriteLine(e);
                 return NoContent();
             }
         }
         
         [HttpPost]
         [Route("sign-up")]        
-        public async Task<dynamic> SignUp([FromBody] User userData) {
+        public async Task<dynamic> SignUp([FromBody] SignUpCredentialsDTO userData) {
             try {
                 return Ok(await _authService.SignUp(userData));
             } catch (Exception) {
@@ -46,7 +47,7 @@ namespace proj_semestre_backend.Controllers
 
         [HttpGet]
         [Route("authenticated")]
-        [Authorize]
+        [Authorize(Roles = "adm")]
         public string Authenticated() => String.Format("Autenticado - {0}", User.Identity.Name);
 
 

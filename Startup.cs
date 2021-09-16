@@ -29,15 +29,21 @@ namespace proj_semestre_backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApiContext>(options => options.UseSqlServer(Configuration.GetConnectionString("database")));    
+            
             services.AddCors();
+
             services.AddTransient<ITokenService, TokenService>();
+            
+            services.AddTransient<IMovementRepository, MovementRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ICardRepository, CardRepository>();
             
             services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<ICardService, CardService>();
+            services.AddTransient<IMovementService, MovementService>();
 
             services.AddControllers();
-
-            services.AddDbContext<ApiContext>(options => options.UseNpgsql(Configuration.GetConnectionString("database")));    
 
             services.AddSwaggerGen(c =>
             {
