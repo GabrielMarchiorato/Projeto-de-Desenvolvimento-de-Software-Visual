@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using System.Linq;
 namespace proj_semestre_backend.Models
 {
     [Table("Users")]
@@ -14,5 +15,14 @@ namespace proj_semestre_backend.Models
         public string Role { get; set; }
         public List<Card> Cards { get; set; }
         public List<Movement> Movements { get; set; }
+
+        public static User fromClaims(IEnumerable<System.Security.Claims.Claim> claims) {
+            var data = claims.ToList().ConvertAll((e) => e.Value);
+            return new User() {
+                Username = data[0],
+                Role = data[1],
+                Id = System.Convert.ToInt32(data[2]),
+            };
+        }
     }
 }

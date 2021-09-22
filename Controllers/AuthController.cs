@@ -14,13 +14,8 @@ namespace proj_semestre_backend.Controllers
     [Route("[controller]")]
     public class AuthController : ControllerBase, IAuthController
     {
-        private readonly ILogger<AuthController> _logger;
         private IAuthService _authService;
-        public AuthController(ILogger<AuthController> logger, IAuthService authService)
-        {
-            _logger = logger;
-            _authService = authService;
-        }
+        public AuthController(ILogger<AuthController> logger, IAuthService authService) => _authService = authService;
 
         [HttpPost]
         [Route("login")]
@@ -47,8 +42,12 @@ namespace proj_semestre_backend.Controllers
 
         [HttpGet]
         [Route("authenticated")]
-        [Authorize(Roles = "adm")]
-        public string Authenticated() => String.Format("Autenticado - {0}", User.Identity.Name);
+        [Authorize(Roles = "user")]
+        public List<string> Authenticated() { 
+            var user = User.Claims .ToList().ConvertAll((e) => e.Value);
+            Console.Write(user);
+            return user;
+        } 
 
 
     }

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 namespace proj_semestre_backend.Repositories {
     public interface IMovementRepository
     {
-        List<Movement> getMovementsForUser(AuthenticatedUser user);
-        ValueTask<Movement> insertMovements(AuthenticatedUser user);
-        ValueTask<int> deleteMovement(AuthenticatedUser user);
-        ValueTask<Movement> updateMovementInfo(AuthenticatedUser user);
+        List<Movement> getMovementsForUser(User user);
+        ValueTask<Movement> insertMovements(User user, Movement movement);
+        void deleteMovement(User user, int movementId);
+        Movement updateMovementInfo(User user, Movement movement);
     }
 }

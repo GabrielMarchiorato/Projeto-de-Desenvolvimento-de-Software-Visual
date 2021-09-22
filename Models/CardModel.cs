@@ -12,5 +12,6 @@ namespace proj_semestre_backend.Models
         public string Number { get; set; }
         public string CardHolder { get; set; }
         public DateTime ExpirationDate { get; set; }
+        public int UserId { get; set; }
     }
 }

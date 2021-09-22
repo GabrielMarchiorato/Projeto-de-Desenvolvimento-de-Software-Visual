@@ -24,7 +24,10 @@ namespace proj_semestre_backend.Services
                         user.Username.ToString()),
                     new Claim(
                         ClaimTypes.Role,
-                        user.Role.ToString())
+                        user.Role.ToString()),
+                    new Claim(
+                        ClaimTypes.NameIdentifier,
+                        user.Id.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

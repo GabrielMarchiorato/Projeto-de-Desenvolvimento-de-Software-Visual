@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace proj_semestre_backend.Services {
     public interface ICardService {
-        List<Card> getCardsForUser(AuthenticatedUser user);
-        ValueTask<Card> insertCard(AuthenticatedUser user);
-        ValueTask<int> deleteCard(AuthenticatedUser user);
-        ValueTask<Card> updateCardInfo(AuthenticatedUser user);
+        List<Card> getCardsForUser(User user);
+        ValueTask<Card> insertCard(User user, Card card);
+        void deleteCard(User user, int cardId);
+        Card updateCardInfo(User user, Card card);
     }
 }

@@ -12,29 +12,10 @@ namespace proj_semestre_backend.Services {
     public class CardService : ICardService
     {
         ICardRepository _cardRepository;
-        public CardService(ICardRepository cardRepository)
-        {
-            this._cardRepository = cardRepository;
-        }
-
-        public ValueTask<int> deleteCard(AuthenticatedUser user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Card> getCardsForUser(AuthenticatedUser user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ValueTask<Card> insertCard(AuthenticatedUser user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ValueTask<Card> updateCardInfo(AuthenticatedUser user)
-        {
-            throw new NotImplementedException();
-        }
+        public CardService(ICardRepository cardRepository) => this._cardRepository = cardRepository;
+        public void deleteCard(User user, int cardId) => _cardRepository.deleteCard(user, cardId);
+        public List<Card> getCardsForUser(User user) => _cardRepository.getCardsForUser(user);
+        public ValueTask<Card> insertCard(User user, Card card) => _cardRepository.insertCard(user, card);
+        public Card updateCardInfo(User user, Card card) => _cardRepository.updateCardInfo(user, card);
     }
 }

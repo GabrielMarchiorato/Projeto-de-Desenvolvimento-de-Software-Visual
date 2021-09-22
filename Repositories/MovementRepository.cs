@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using proj_semestre_backend.Database;
 using proj_semestre_backend.Models;
 using System.Linq;
-
+using System;
 namespace proj_semestre_backend.Repositories
 {
     public class MovementRepository : IMovementRepository
@@ -12,24 +12,26 @@ namespace proj_semestre_backend.Repositories
         public MovementRepository(ApiContext context){
             _context = context;
         }        
-        ValueTask<int> IMovementRepository.deleteMovement(AuthenticatedUser user)
+        public void deleteMovement(User user, int movementId) 
         {
-            throw new System.NotImplementedException();
+            var movement = _context.Movements.First(m => m.Id == movementId);
+            if (movement.UserId != user.Id) throw new UnauthorizedAccessException();
+            _context.Movements.Remove(movement);
+            _context.SaveChanges();
         }
-
-        List<Movement> IMovementRepository.getMovementsForUser(AuthenticatedUser user)
+        public List<Movement> getMovementsForUser(User user) => _context.Movements.Where(movement => movement.UserId == user.Id).ToList();
+        public async ValueTask<Movement> insertMovements(User user, Movement movement)
         {
-            throw new System.NotImplementedException();
+            await _context.Movements.AddAsync(movement);
+            await _context.SaveChangesAsync();
+            return movement;
         }
-
-        ValueTask<Movement> IMovementRepository.insertMovements(AuthenticatedUser user)
+        public Movement updateMovementInfo(User user, Movement movement)
         {
-            throw new System.NotImplementedException();
-        }
-
-        ValueTask<Movement> IMovementRepository.updateMovementInfo(AuthenticatedUser user)
-        {
-            throw new System.NotImplementedException();
+            if (movement.UserId != user.Id) throw new UnauthorizedAccessException();
+            _context.Movements.Update(movement);
+            _context.SaveChanges();
+            return movement;
         }
     }
 }

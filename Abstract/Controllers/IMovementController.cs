@@ -6,9 +6,9 @@ namespace proj_semestre_backend.Controllers
 {
     public interface IMovementController
     {
-        List<Movement> getMovementsForUser(AuthenticatedUser user);
-        ValueTask<Movement> insertMovements(AuthenticatedUser user);
-        ValueTask<int> deleteMovement(AuthenticatedUser user);
-        ValueTask<Movement> updateMovementInfo(AuthenticatedUser user);
+        List<Movement> getMovementsForUser();
+        ValueTask<Movement> insertMovements(Movement movement);
+        void deleteMovement(int movementId);
+        Movement updateMovementInfo(Movement movement);
     }
 }

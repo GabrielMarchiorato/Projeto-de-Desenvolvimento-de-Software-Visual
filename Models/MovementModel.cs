@@ -12,5 +12,6 @@ namespace proj_semestre_backend.Models
         public string type { get; set; }
         public string method { get; set; }
         public float value { get; set; }
+        public int UserId { get; set; }
     }
 }

@@ -2,31 +2,36 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using proj_semestre_backend.Models;
+using proj_semestre_backend.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace proj_semestre_backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CardController : ControllerBase, ICardControllerInterface
-    {
-        ValueTask<int> ICardControllerInterface.deleteCard(AuthenticatedUser user)
-        {
-            throw new System.NotImplementedException();
-        }
+    public class CardController : ControllerBase, ICardController
+    {       
+        public ICardService _cardService;
+        public CardController(ICardService cardService) => _cardService = cardService;
 
-        List<Card> ICardControllerInterface.getCardsForUser(AuthenticatedUser user)
-        {
-            throw new System.NotImplementedException();
-        }
+        [HttpDelete()]
+        [Authorize(Roles = "user")]
+        public void deleteCard(int cardId) => 
+            this._cardService.deleteCard(Models.User.fromClaims(User.Claims), cardId);
+        
+        [HttpGet]
+        [Authorize(Roles = "user")]
+        public List<Card> getCardsForUser() => 
+            this._cardService.getCardsForUser(Models.User.fromClaims(User.Claims));
 
-        ValueTask<Card> ICardControllerInterface.insertCard(AuthenticatedUser user)
-        {
-            throw new System.NotImplementedException();
-        }
+        [HttpPost]
+        [Authorize(Roles = "user")]
+        public ValueTask<Card> insertCard(Card card) => 
+            this._cardService.insertCard(Models.User.fromClaims(User.Claims), card);
 
-        ValueTask<Card> ICardControllerInterface.updateCardInfo(AuthenticatedUser user)
-        {
-            throw new System.NotImplementedException();
-        }
+        [HttpPatch]
+        [Authorize(Roles = "user")]
+        public Card updateCardInfo(Card card) =>
+            this._cardService.updateCardInfo(Models.User.fromClaims(User.Claims), card);
     }
 }
