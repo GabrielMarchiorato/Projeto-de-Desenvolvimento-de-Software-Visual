@@ -10,9 +10,7 @@ namespace proj_semestre_backend.Repositories
     public class CardRepository : ICardRepository
     {
         private ApiContext _context;
-        public CardRepository(ApiContext context){
-            _context = context;
-        }
+        public CardRepository(ApiContext context) => _context = context;
         public void deleteCard(User user, int cardId) 
         {
             var card = _context.Cards.First(card => card.Id == cardId);

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace proj_semestre_backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("auth")]
     public class AuthController : ControllerBase, IAuthController
     {
         private IAuthService _authService;

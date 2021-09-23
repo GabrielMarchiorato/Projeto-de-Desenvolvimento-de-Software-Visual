@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace proj_semestre_backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("card")]
     public class CardController : ControllerBase, ICardController
     {       
         public ICardService _cardService;

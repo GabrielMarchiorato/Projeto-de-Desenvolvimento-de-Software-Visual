@@ -5,12 +5,10 @@ using proj_semestre_backend.Models;
 using proj_semestre_backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using System;
-
-
 namespace proj_semestre_backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("movement")]
     public class MovementController : ControllerBase, IMovementController
     {
         public IMovementService _movementService;
