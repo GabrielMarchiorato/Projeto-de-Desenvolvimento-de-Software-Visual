@@ -10,7 +10,7 @@ using proj_semestre_backend.Database;
 namespace proj_semestre_backend.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    [Migration("20210929111900_FirstMigration")]
+    [Migration("20210929134348_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,7 +57,7 @@ namespace proj_semestre_backend.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("CardId")
+                    b.Property<int?>("CardId")
                         .HasColumnType("integer");
 
                     b.Property<int>("UserId")
@@ -124,9 +124,7 @@ namespace proj_semestre_backend.Migrations
                 {
                     b.HasOne("proj_semestre_backend.Models.Card", null)
                         .WithMany("Movements")
-                        .HasForeignKey("CardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CardId");
 
                     b.HasOne("proj_semestre_backend.Models.User", null)
                         .WithMany("Movements")

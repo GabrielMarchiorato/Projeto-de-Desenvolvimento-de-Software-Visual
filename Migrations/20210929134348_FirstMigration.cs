@@ -56,7 +56,7 @@ namespace proj_semestre_backend.Migrations
                     method = table.Column<string>(type: "text", nullable: true),
                     value = table.Column<float>(type: "real", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
-                    CardId = table.Column<int>(type: "integer", nullable: false)
+                    CardId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -66,7 +66,7 @@ namespace proj_semestre_backend.Migrations
                         column: x => x.CardId,
                         principalTable: "Cards",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Movements_Users_UserId",
                         column: x => x.UserId,

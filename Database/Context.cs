@@ -1,7 +1,6 @@
 using proj_semestre_backend.Models;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace proj_semestre_backend.Database {  
     public partial class ApiContext : DbContext
     {
@@ -20,6 +19,10 @@ namespace proj_semestre_backend.Database {
             modelBuilder.Entity<Card>()
                 .HasIndex(c => new { c.Number })
                 .IsUnique(true);
+
+            modelBuilder.Entity<Movement>()
+            .Property(f => f.Id)
+            .ValueGeneratedOnAdd();
             
             modelBuilder.Entity<Movement>()
                 .HasIndex(m => new { m.Id })

@@ -8,11 +8,12 @@ namespace proj_semestre_backend.Models
     public class Movement
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string type { get; set; }
         public string method { get; set; }
         public float value { get; set; }
         public int UserId { get; set; }
-        public int CardId { get; set; }
+        public int? CardId { get; set; }
     }
 }

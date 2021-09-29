@@ -55,7 +55,7 @@ namespace proj_semestre_backend.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("CardId")
+                    b.Property<int?>("CardId")
                         .HasColumnType("integer");
 
                     b.Property<int>("UserId")
@@ -122,9 +122,7 @@ namespace proj_semestre_backend.Migrations
                 {
                     b.HasOne("proj_semestre_backend.Models.Card", null)
                         .WithMany("Movements")
-                        .HasForeignKey("CardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CardId");
 
                     b.HasOne("proj_semestre_backend.Models.User", null)
                         .WithMany("Movements")
