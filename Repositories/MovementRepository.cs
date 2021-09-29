@@ -20,7 +20,8 @@ namespace proj_semestre_backend.Repositories
         public List<Movement> getMovementsForUser(User user) => 
             _context.Movements.Where(movement => movement.UserId == user.Id).ToList();
         public async ValueTask<Movement> insertMovements(User user, Movement movement)
-        {
+        {   
+            movement.UserId = user.Id;
             await _context.Movements.AddAsync(movement);
             await _context.SaveChangesAsync();
             return movement;

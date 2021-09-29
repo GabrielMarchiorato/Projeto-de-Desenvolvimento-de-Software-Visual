@@ -21,6 +21,7 @@ namespace proj_semestre_backend.Repositories
         public List<Card> getCardsForUser(User user) => _context.Cards.Where(card => card.UserId == user.Id).ToList();
         public async ValueTask<Card> insertCard(User user, Card card)
         {
+            card.UserId = user.Id;
             await _context.Cards.AddAsync(card);
             await _context.SaveChangesAsync();
             return card;

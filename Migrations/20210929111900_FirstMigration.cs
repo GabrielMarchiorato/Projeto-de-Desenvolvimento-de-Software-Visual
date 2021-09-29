@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace proj_semestre_backend.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class FirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,7 +33,7 @@ namespace proj_semestre_backend.Migrations
                     Number = table.Column<string>(type: "text", nullable: true),
                     CardHolder = table.Column<string>(type: "text", nullable: true),
                     ExpirationDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: true)
+                    UserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -43,7 +43,7 @@ namespace proj_semestre_backend.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,17 +55,24 @@ namespace proj_semestre_backend.Migrations
                     type = table.Column<string>(type: "text", nullable: true),
                     method = table.Column<string>(type: "text", nullable: true),
                     value = table.Column<float>(type: "real", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: true)
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    CardId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Movements", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Movements_Cards_CardId",
+                        column: x => x.CardId,
+                        principalTable: "Cards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Movements_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -78,6 +85,11 @@ namespace proj_semestre_backend.Migrations
                 name: "IX_Cards_UserId",
                 table: "Cards",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Movements_CardId",
+                table: "Movements",
+                column: "CardId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Movements_Id",
@@ -100,10 +112,10 @@ namespace proj_semestre_backend.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Cards");
+                name: "Movements");
 
             migrationBuilder.DropTable(
-                name: "Movements");
+                name: "Cards");
 
             migrationBuilder.DropTable(
                 name: "Users");

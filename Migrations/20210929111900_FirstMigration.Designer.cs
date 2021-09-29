@@ -10,8 +10,8 @@ using proj_semestre_backend.Database;
 namespace proj_semestre_backend.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    [Migration("20210920230943_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210929111900_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,7 +37,7 @@ namespace proj_semestre_backend.Migrations
                     b.Property<string>("Number")
                         .HasColumnType("text");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -57,7 +57,10 @@ namespace proj_semestre_backend.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("CardId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("method")
@@ -70,6 +73,8 @@ namespace proj_semestre_backend.Migrations
                         .HasColumnType("real");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CardId");
 
                     b.HasIndex("Id")
                         .IsUnique();
@@ -110,14 +115,29 @@ namespace proj_semestre_backend.Migrations
                 {
                     b.HasOne("proj_semestre_backend.Models.User", null)
                         .WithMany("Cards")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("proj_semestre_backend.Models.Movement", b =>
                 {
+                    b.HasOne("proj_semestre_backend.Models.Card", null)
+                        .WithMany("Movements")
+                        .HasForeignKey("CardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("proj_semestre_backend.Models.User", null)
                         .WithMany("Movements")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("proj_semestre_backend.Models.Card", b =>
+                {
+                    b.Navigation("Movements");
                 });
 
             modelBuilder.Entity("proj_semestre_backend.Models.User", b =>
