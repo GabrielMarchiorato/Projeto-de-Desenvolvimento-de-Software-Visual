@@ -29,7 +29,7 @@ namespace proj_semestre_backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApiContext>(options => options.UseNpgsql(Configuration.GetConnectionString("database")));    
+            services.AddDbContext<ApiContext>(options => options.UseSqlServer(Configuration.GetConnectionString("database")));    
             
             services.AddCors();
 

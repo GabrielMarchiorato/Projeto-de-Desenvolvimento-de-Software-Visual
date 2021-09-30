@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace proj_semestre_backend.Migrations
 {
@@ -12,12 +11,12 @@ namespace proj_semestre_backend.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Username = table.Column<string>(type: "text", nullable: true),
-                    Salt = table.Column<string>(type: "text", nullable: true),
-                    Password = table.Column<string>(type: "text", nullable: true),
-                    Role = table.Column<string>(type: "text", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Username = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Salt = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -28,12 +27,12 @@ namespace proj_semestre_backend.Migrations
                 name: "Cards",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Number = table.Column<string>(type: "text", nullable: true),
-                    CardHolder = table.Column<string>(type: "text", nullable: true),
-                    ExpirationDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Number = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CardHolder = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -50,13 +49,13 @@ namespace proj_semestre_backend.Migrations
                 name: "Movements",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    type = table.Column<string>(type: "text", nullable: true),
-                    method = table.Column<string>(type: "text", nullable: true),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    method = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     value = table.Column<float>(type: "real", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    CardId = table.Column<int>(type: "integer", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CardId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -79,7 +78,8 @@ namespace proj_semestre_backend.Migrations
                 name: "IX_Cards_Number",
                 table: "Cards",
                 column: "Number",
-                unique: true);
+                unique: true,
+                filter: "[Number] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cards_UserId",
@@ -106,7 +106,8 @@ namespace proj_semestre_backend.Migrations
                 name: "IX_Users_Username",
                 table: "Users",
                 column: "Username",
-                unique: true);
+                unique: true,
+                filter: "[Username] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
