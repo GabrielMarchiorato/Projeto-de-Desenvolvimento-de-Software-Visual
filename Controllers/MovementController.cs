@@ -15,7 +15,7 @@ namespace proj_semestre_backend.Controllers
         public MovementController(IMovementService movementService) => 
             _movementService = movementService;
         
-        [HttpDelete()]
+        [HttpDelete]
         [Authorize(Roles = "user")]
         public void deleteMovement(int movementId) => 
             this._movementService.deleteMovement(Models.User.fromClaims(User.Claims), movementId);
