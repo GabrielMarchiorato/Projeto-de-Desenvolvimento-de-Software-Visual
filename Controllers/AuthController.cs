@@ -48,7 +48,5 @@ namespace proj_semestre_backend.Controllers
             Console.Write(user);
             return user;
         } 
-
-
     }
 }
