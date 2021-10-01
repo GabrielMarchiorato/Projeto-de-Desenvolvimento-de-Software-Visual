@@ -14,7 +14,7 @@ namespace proj_semestre_backend.Controllers
         public ICardService _cardService;
         public CardController(ICardService cardService) => _cardService = cardService;
 
-        [HttpDelete()]
+        [HttpDelete]
         [Authorize(Roles = "user")]
         public void deleteCard(int cardId) => 
             this._cardService.deleteCard(Models.User.fromClaims(User.Claims), cardId);
